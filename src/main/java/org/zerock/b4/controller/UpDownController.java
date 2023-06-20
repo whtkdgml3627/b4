@@ -112,6 +112,22 @@ public class UpDownController {
     log.info("delete file........");
     log.info(fileName);
 
+    File originFile = new File(uploadPath, fileName);
+
+    try {
+
+      String mimeType = Files.probeContentType(originFile.toPath());
+      if(mimeType.startsWith("image")){
+        File thumbFile = new File(uploadPath,"s_"+fileName);
+        thumbFile.delete();
+      }
+      originFile.delete();
+
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
     return Map.of("result", "success");
   }
 
