@@ -15,4 +15,19 @@
   limit #{skip}, #{size}
   </select>
 
+  <insert id="insertProduct">
+  insert into tbl_product (pname, price, status)
+  values (#{pname}, #{price}, #{status})
+    <selectKey resultType="int" keyProperty="pno" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+  </insert>
+
+  <insert id="insertImages">
+  insert into tbl_product_image (uuid, pno, fileName, ord) values
+  <foreach collection="list" item="item" separator=",">
+    ( #{item.uuid}, #{item.pno}, #{item.fileName}, #{item.ord} )
+  </foreach>
+  </insert>
+
 </mapper>
