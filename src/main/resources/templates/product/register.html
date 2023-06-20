@@ -84,7 +84,14 @@
       const liObj = e.target.closest("li")
       //alert("remove file")
       //console.log(liObj)
-      liObj.remove();
+
+      // const param = {fileName: uuid + "_" + fileName}
+      // console.log(param)
+
+      axios.delete(`http://localhost:8080/removeFile/${uuid}_${fileName}`)
+
+      //liObj.remove();
+
     }
   </script>
 </body>

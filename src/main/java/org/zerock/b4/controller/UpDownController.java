@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -13,11 +14,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.zerock.b4.dto.RequestFileRemoveDTO;
 import org.zerock.b4.dto.UploadResultDTO;
 
 import lombok.extern.log4j.Log4j2;
@@ -101,5 +105,25 @@ public class UpDownController {
     }
     return ResponseEntity.ok().headers(headers).body(resource);
   }
+
+  @DeleteMapping("/removeFile/{fileName}")
+  public Map<String, String> removeFile(@PathVariable("fileName") String fileName){
+
+    log.info("delete file........");
+    log.info(fileName);
+
+    return Map.of("result", "success");
+  }
+
+  // @DeleteMapping("/removeFile")
+  // public Map<String, String> removeFile(@RequestBody RequestFileRemoveDTO dto){
+
+  //   String fileName = dto.getFileName();
+
+  //   log.info("delete file........");
+  //   log.info(fileName);
+
+  //   return Map.of("result", "success");
+  // }
 
 }
