@@ -2,6 +2,7 @@ package org.zerock.b4.mappers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -41,11 +42,9 @@ public class ProductMapperTests {
     dto.setPname("테스트상품");
     dto.setPrice(5000);
     dto.setStatus(true);
-    dto.setFileNames(List.of("aaaaa_f1.jpg","bbbbb_f2.jpg"));
+    dto.setFileNames(List.of(UUID.randomUUID() + "_f1.jpg",UUID.randomUUID() + "_f2.jpg"));
 
     List<String> fileNames = dto.getFileNames();
-
-
 
     int count = productMapper.insertProduct(dto);
 
@@ -58,8 +57,8 @@ public class ProductMapperTests {
     AtomicInteger index = new AtomicInteger();
 
     List<Map<String,String>> list = fileNames.stream().map(str -> {
-      String uuid = str.substring(0, 5);
-      String fileName = str.substring(6);
+      String uuid = str.substring(0, 36);
+      String fileName = str.substring(37);
 
       return Map.of("uuid", uuid, "fileName", fileName,"pno", ""+pno, "ord", "" + index.getAndIncrement());
 
@@ -71,7 +70,6 @@ public class ProductMapperTests {
 
     log.info("=====================" + countImages);
     
-
   }
 
 }
