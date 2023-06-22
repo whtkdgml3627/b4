@@ -22,6 +22,8 @@ public interface ProductService {
   ProductDTO get(Integer pno);
 
   List<String> getImage(Integer pno);
+
+  void modify(ProductDTO dto);
   //void modify();
   //상품 데이터 수정
   //기존 첨부파일 DB에서 삭제

@@ -53,12 +53,16 @@ public class ProductController {
   //step3 post로 상품 수정
   @PostMapping("modify/{pno}")
   public String modifyPost(
-    
+    @PathVariable("pno") Integer pno, ProductDTO dto
   ) {
     //DTO 확인 -> 등록 과정과 동일한 내용 (다른점은 pno값 존재)
     //DTO 개발
+    //장난질 못치게 안전처리
+    dto.setPno(pno);
 
-    return "redirect:/product/read/{pno}";
+    productService.modify(dto);
+    
+    return "redirect:/product/read/" + pno;
   }
 
   // /수정

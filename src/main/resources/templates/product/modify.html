@@ -14,12 +14,16 @@
     Axios로 호출할 URL 기능 개발 필요
   -->
 
-  <form>
+  <form class="actionForm" th:action="|/product/modify/${dto.pno}|" method="post">
     <p>
       <input type="text" name="pno" th:value="${dto.pno}">
     </p>
     <p>
-      <input type="text" name="pno" th:value="${dto.pname}">
+      <input type="text" name="pname" th:value="${dto.pname}">
+    </p>
+    <p>
+      <button class="modBtn">Modify</button>
+      <button>Delete</button>
     </p>
   </form>
 
@@ -34,7 +38,7 @@
 
   <style>
     .uploadUL {list-style: none;display: flex;flex-wrap: wrap;}
-    .uploadUL li {margin: 1em;padding: 1em;border:1px solid black;background-color: coral;border-radius: 5px;}
+    .uploadUL li {width:calc(100%/5);margin: 1em;padding: 1em;border:1px solid black;background-color: coral;border-radius: 5px;}
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -48,6 +52,36 @@
     const uploadBtn = document.querySelector(".uploadBtn")
     const uploadInput = document.querySelector(".uploadInput")
     const uploadUL = document.querySelector(".uploadUL")
+    
+    const modBtn = document.querySelector(".modBtn")
+    const actionForm = document.querySelector(".actionForm")
+
+    modBtn.addEventListener("click", e => {
+      e.preventDefault()
+      e.stopPropagation()
+
+      const liArr = uploadUL.querySelectorAll("li")
+
+      if(!liArr || liArr.length === 0) {
+        alert("파일을 넣으라고!!!")
+        return
+      }
+
+      let str = ""
+      for(let liObj of liArr) {
+        console.log(liObj)
+        const uuid = liObj.getAttribute("data-uuid")
+        const fileName = liObj.getAttribute("data-filename")
+        console.log(uuid, " / "+fileName)
+        console.log("---------------------------------")
+        str += `<input type="hidden" name="fileNames" value="${uuid}_${fileName}">`
+      }
+
+      actionForm.innerHTML += str
+      alert(document.querySelector("input[name=pname]").value)
+      actionForm.submit()
+
+    }, false)
 
     const loadImages = () => {
       axios.get(`http://localhost:8080/product/images/${pno}`)
@@ -101,7 +135,7 @@
 
       // const param = {fileName: uuid + "_" + fileName}
       // console.log(param)
-      //axios.delete(`http://localhost:8080/removeFile/${uuid}_${fileName}`)
+      axios.delete(`http://localhost:8080/removeFile/${uuid}_${fileName}`)
       liObj.remove();
     }
 
